@@ -1,0 +1,22 @@
+pipeline {
+        agent any
+        parameters {
+                string(name: 'name', defaultValue: '',description: 'Ingresa tu nombre')
+                String('age',defaultValue:'',description: 'Ingresa tu edad')
+
+        }
+        stages {
+            stage('Input'){
+                steps {
+                    script{
+                        //Los parametros pueden ser accedidos mediante params.parameterName
+                    }
+                }
+            }
+
+        }
+
+
+
+
+}
