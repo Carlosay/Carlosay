@@ -13,49 +13,86 @@ pipeline {
         stage('Input') { 
 
             steps { 
-                script { 
-                    userInput = input( 
-                        id: 'userInput', 
-                        message: 'Ingrese los datos del usuario', 
-                        parameters: [ 
-                            string(name: 'Nombre', defaultValue: '', description: 'Ingresa su Nombre'), 
-                            string(name: 'Apellido', defaultValue: '', description: 'Ingresa su Apellido'), 
-                            choice(name: 'Departamento', choices: ['Contabilidad', 'Finanzas', 'Tecnologia'], description: 'Selecciona el departamento') 
-                        ]) 
 
-                        //se Arma Login con Nombre+Apellido
-                        def nombre = userInput['Nombre']
-                        def apellido = userInput['Apellido']
-                        def login = nombre+apellido
-                        userInput['Login']= login
+                script { 
+
+                    userInput = input( 
+
+                        id: 'userInput', 
+
+                        message: 'Ingrese los datos del usuario', 
+
+                        parameters: [ 
+
+                            string(name: 'Nombre', defaultValue: '', description: 'Ingresa su Nombre'), 
+
+                            string(name: 'Apellido', defaultValue: '', description: 'Ingresa su Apellido'), 
+
+                            choice(name: 'Departamento', choices: ['Contabilidad', 'Finanzas', 'Tecnologia'], description: 'Selecciona el departamento') 
+
+                        ] 
+
+                    ) 
+
+  
+
+                    // Se arma Login con Nombre + Apellido 
+
+                    def nombre = userInput['Nombre'] 
+
+                    def apellido = userInput['Apellido'] 
+
+                    def login = nombre + apellido 
+
+                    userInput['Login'] = login 
+
                 } 
+
             } 
+
         } 
 
   
 
         stage('Passtemporal') { 
+
             steps { 
+
                 script { 
+
                     def nombre = userInput['Nombre'] 
+
                     def apellido = userInput['Apellido'] 
+
                     def passTemp = nombre.toLowerCase() + apellido.toLowerCase() 
+
                     env.TEMPORAL_PASSWORD = passTemp 
+
                 } 
+
             } 
+
         } 
 
   
+
         stage('Creacion del Usuario') { 
+
             steps { 
+
                 script { 
+
                     def nombre = userInput['Nombre'].toLowerCase() 
-                    def apellido = userInput['Apellido'].toLowerCase()
-                    def login = userInput[Login] 
+
+                    def apellido = userInput['Apellido'].toLowerCase() 
+
+                    def login = userInput['Login'] // Accediendo al campo Login correctamente 
+
                     def departamento = userInput['Departamento'] 
+
                     def temporalPass = env.TEMPORAL_PASSWORD 
 
-                                      
+  
 
                     echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento} con Login: ${login} y Password Temporal: ${temporalPass}." 
 
@@ -68,9 +105,3 @@ pipeline {
     } 
 
 } 
-
- 
-
- 
-
-
