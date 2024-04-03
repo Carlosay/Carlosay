@@ -15,8 +15,8 @@ pipeline {
                     script{
                         userInput=Input(
                         parameters:[
-                        string(name: 'Nombre',defaultValue: '',description: 'Ingresa su Nombre')
-                        string(name: 'Apellido',defaultValue: '',description: 'Ingresa su Apellido')
+                        string(name: 'Nombre',defaultValue: '',description: 'Ingresa su Nombre'),
+                        string(name: 'Apellido',defaultValue: '',description: 'Ingresa su Apellido'),
                         choice(name: 'Departamento', choices: ['Contabilidad','Finanzas','Tecnologia'], description: 'Selecciona el departamento')
 
                         ])
