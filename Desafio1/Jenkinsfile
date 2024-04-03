@@ -1,33 +1,50 @@
-// Resolucion Practica Clase 5
+// Resolucion Desafio1
 def COUNT
+def Nombre
+def Apellido
+def login
 
 pipeline {
         agent any
-        parameters {
-            string(name: 'Nombre',defaultValue: '',description: 'Ingresa su Nombre')
-            string(name: 'Apellido',defaultValue: '',description: 'Ingresa su Apellido')
-            string(name:'httpCode' , defaultValue: '', description: 'Ingrese http a buscar')
-            choice(name: 'httpCode', choices: ['200','301','404','500' ], description: 'Selecciona la palabra a buscar')
-        }
+   
 
        
         
         stages {
-            stage('Descargar Logs'){
+            stage('Input'){
                 steps {
-                        //ingresar URL que se tiene que Descargar!!!!
-                        //sh 'curl -o /tmp/logsfiles.logs https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_log'
-                        sh 'ls-lah'
+
+                    script{
+                        userInput=Input(
+                        parameters:[
+                        string(name: 'Nombre',defaultValue: '',description: 'Ingresa su Nombre')
+                        string(name: 'Apellido',defaultValue: '',description: 'Ingresa su Apellido')
+                        choice(name: 'Departamento', choices: ['Contabilidad','Finanzas','Tecnologia'], description: 'Selecciona el departamento')
+
+                        ])
+                    }
+
+                        
                     }
                 }
-                stage ('Contar lineas'){
+
+                stage('Passtemporal')
+                    steps{
+                        script{
+                            def nombre = userInput['Nombre']
+                            def apellido = userInput['Apellido']
+                            def PassTemp = nombre.ToLowerCase()+apellido.ToLowerCase()
+                            env.TEMPORAL_PASSWORD = PassTemp
+                        }
+                    }
+                
+                stage('Creacion del Usuario'){
                     steps {
                         script{
-                            
-
-                            COUNT = sh (script: "grep -c '${params.Palabra}.*${params.httpCode}' /tmp/logfiles.log", returnStdout: true).trim()
-                            echo "La cantidad de lineas encontradas es: ${COUNT}"
-
+                            def nombre = userInput['Nombre'].ToLowerCase()
+                            def apellildo = userInput['Apellido'].ToLowerCase()
+                            def departamento = userInput['Departamento']
+                            def TemporalPass = env.TEMPORAL_PASSWORD
 
                         }
                     }
