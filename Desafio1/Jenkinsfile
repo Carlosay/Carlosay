@@ -26,7 +26,7 @@ pipeline {
                     }
                 }
 
-                stage('Passtemporal')
+                stage('Passtemporal'){
                     steps{
                         script{
                             def nombre = userInput['Nombre']
@@ -35,7 +35,7 @@ pipeline {
                             env.TEMPORAL_PASSWORD = PassTemp
                         }
                     }
-                
+                }
                 stage('Creacion del Usuario'){
                     steps {
                         script{
