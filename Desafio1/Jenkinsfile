@@ -13,80 +13,51 @@ pipeline {
         stage('Input') { 
 
             steps { 
-
                 script { 
-
                     userInput = input( 
-
                         id: 'userInput', 
-
                         message: 'Ingrese los datos del usuario', 
-
                         parameters: [ 
-
                             string(name: 'Nombre', defaultValue: '', description: 'Ingresa su Nombre'), 
-
                             string(name: 'Apellido', defaultValue: '', description: 'Ingresa su Apellido'), 
-
                             choice(name: 'Departamento', choices: ['Contabilidad', 'Finanzas', 'Tecnologia'], description: 'Selecciona el departamento') 
+                        ]) 
 
-                        ] 
-
-                    ) 
-
+                        //se Arma Login con Nombre+Apellido
+                        def nombre = userInput['Nombre']
+                        def apellido = userInput['Apellido']
+                        def login = nombre+apellido
+                        userInput['Login']= login
                 } 
-
             } 
-
         } 
 
   
 
         stage('Passtemporal') { 
-
             steps { 
-
                 script { 
-
                     def nombre = userInput['Nombre'] 
-
                     def apellido = userInput['Apellido'] 
-
                     def passTemp = nombre.toLowerCase() + apellido.toLowerCase() 
-
                     env.TEMPORAL_PASSWORD = passTemp 
-
                 } 
-
             } 
-
         } 
 
   
-
         stage('Creacion del Usuario') { 
-
             steps { 
-
                 script { 
-
                     def nombre = userInput['Nombre'].toLowerCase() 
-
-                    def apellido = userInput['Apellido'].toLowerCase() 
-
+                    def apellido = userInput['Apellido'].toLowerCase()
+                    def login = userInput[Login] 
                     def departamento = userInput['Departamento'] 
-
                     def temporalPass = env.TEMPORAL_PASSWORD 
 
-  
+                                      
 
-                    // Aquí deberías agregar la lógica para crear el usuario con la contraseña temporal 
-
-                    // Ejemplo: sh "sudo useradd -m -s /bin/bash -G ${departamento} -p $(openssl passwd -1 ${temporalPass}) ${nombre}${apellido}" 
-
-                     
-
-                    echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento}." 
+                    echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento} con Login: ${login} y Password Temporal: ${TEMPORAL_PASSWORD}." 
 
                 } 
 
