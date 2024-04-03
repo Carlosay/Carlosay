@@ -57,7 +57,7 @@ pipeline {
 
                                       
 
-                    echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento} con Login: ${login} y Password Temporal: ${TEMPORAL_PASSWORD}." 
+                    echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento} con Login: ${login} y Password Temporal: ${temporalPass}." 
 
                 } 
 
