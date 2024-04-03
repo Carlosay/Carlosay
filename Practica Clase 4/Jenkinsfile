@@ -26,6 +26,7 @@ pipeline {
                             COUNT=sh(script: "grep -c '${params.Palabra}.*HTTP/1\.[01] ${params.httpCode} ' /tmp/logsfiles.logs",
                             returnStdout: true ).trim()
                             echo "Numero de Coincidencias encontradas: ${env.COUNT}"
+                            
 
                         }
                     }
