@@ -1,5 +1,5 @@
 // Resolucion Practica Clase 5
-
+def COUNT
 
 pipeline {
         agent any
@@ -8,9 +8,7 @@ pipeline {
             string(name:'httpCode' , defaultValue: '', description: 'Ingrese http a buscar')
         }
 
-        enviroment{
-             COUNT='0'
-        }
+       
         
         stages {
             stage('Descargar Logs'){
@@ -23,9 +21,10 @@ pipeline {
                 stage ('Contar lineas'){
                     steps {
                         script{
-                            COUNT=sh(script: "grep -c '${params.Palabra}.*HTTP/1\\.[01] ${params.httpCode} ' /tmp/logsfiles.logs",
-                            returnStdout: true ).trim()
-                            echo "Numero de Coincidencias encontradas: ${env.COUNT}"
+                            
+
+                            COUNT = sh (script: "grep -c '${params.Palabra}.*${params.httpCode}' /tmp/logfiles.log", returnStdout: true).trim()
+                            echo "La cantidad de lineas encontradas es: ${COUNT}"
 
 
                         }
