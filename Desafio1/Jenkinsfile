@@ -2,55 +2,104 @@
 def COUNT
 
 
-pipeline {
-        agent any
-   
+pipeline { 
 
-       
-        
-        stages {
-            stage('Input'){
-                steps {
+    agent any 
 
-                    script{
-                        userInput=Input(
-                        parameters:[
-                        string(name: 'Nombre',defaultValue: '',description: 'Ingresa su Nombre'),
-                        string(name: 'Apellido',defaultValue: '',description: 'Ingresa su Apellido'),
-                        choice(name: 'Departamento', choices: ['Contabilidad','Finanzas','Tecnologia'], description: 'Selecciona el departamento')
+  
 
-                        ])
-                    }
+    stages { 
 
-                        
-                    }
-                }
+        stage('Input') { 
 
-                stage('Passtemporal'){
-                    steps{
-                        script{
-                            def nombre = userInput['Nombre']
-                            def apellido = userInput['Apellido']
-                            def PassTemp = nombre.ToLowerCase()+apellido.ToLowerCase()
-                            env.TEMPORAL_PASSWORD = PassTemp
-                        }
-                    }
-                }
-                stage('Creacion del Usuario'){
-                    steps {
-                        script{
-                            def nombre = userInput['Nombre'].ToLowerCase()
-                            def apellildo = userInput['Apellido'].ToLowerCase()
-                            def departamento = userInput['Departamento']
-                            def TemporalPass = env.TEMPORAL_PASSWORD
+            steps { 
 
-                        }
-                    }
-                }
-            }
+                script { 
 
-        }
+                    userInput = input( 
 
+                        id: 'userInput', 
 
+                        message: 'Ingrese los datos del usuario', 
+
+                        parameters: [ 
+
+                            string(name: 'Nombre', defaultValue: '', description: 'Ingresa su Nombre'), 
+
+                            string(name: 'Apellido', defaultValue: '', description: 'Ingresa su Apellido'), 
+
+                            choice(name: 'Departamento', choices: ['Contabilidad', 'Finanzas', 'Tecnologia'], description: 'Selecciona el departamento') 
+
+                        ] 
+
+                    ) 
+
+                } 
+
+            } 
+
+        } 
+
+  
+
+        stage('Passtemporal') { 
+
+            steps { 
+
+                script { 
+
+                    def nombre = userInput['Nombre'] 
+
+                    def apellido = userInput['Apellido'] 
+
+                    def passTemp = nombre.toLowerCase() + apellido.toLowerCase() 
+
+                    env.TEMPORAL_PASSWORD = passTemp 
+
+                } 
+
+            } 
+
+        } 
+
+  
+
+        stage('Creacion del Usuario') { 
+
+            steps { 
+
+                script { 
+
+                    def nombre = userInput['Nombre'].toLowerCase() 
+
+                    def apellido = userInput['Apellido'].toLowerCase() 
+
+                    def departamento = userInput['Departamento'] 
+
+                    def temporalPass = env.TEMPORAL_PASSWORD 
+
+  
+
+                    // Aquí deberías agregar la lógica para crear el usuario con la contraseña temporal 
+
+                    // Ejemplo: sh "sudo useradd -m -s /bin/bash -G ${departamento} -p $(openssl passwd -1 ${temporalPass}) ${nombre}${apellido}" 
+
+                     
+
+                    echo "Usuario ${nombre}${apellido} creado exitosamente en el departamento de ${departamento}." 
+
+                } 
+
+            } 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
 
 
