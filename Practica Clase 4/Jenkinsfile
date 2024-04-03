@@ -1,0 +1,39 @@
+// Resolucion Practica Clase 5
+
+
+pipeline {
+        agent any
+        parameters {
+            string(name: 'Palabra',defaultValue: '',description: 'Ingresa upalabra a buscar')
+            string(name:'httpCode' , defaultValue: '', description: 'Ingrese http a buscar')
+        }
+
+        enviroment{
+             COUNT='0'
+        }
+        
+        stages {
+            stage('Descargar Logs'){
+                steps {
+                        //ingresar URL que se tiene que Descargar!!!!
+                        sh 'curl -o /tmp/logsfiles.logs https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_log'
+
+                    }
+                }
+                stage ('Contar lineas'){
+                    steps {
+                        script{
+                            COUNT=sh(script: "grep -c '${params.Palabra}.*HTTP/1\.[01] ${params.httpCode} ' /tmp/logsfiles.logs",
+                            returnStdout: true ).trim()
+                            echo "Numero de Coincidencias encontradas: ${env.COUNT}"
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+
+
