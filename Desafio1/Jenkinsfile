@@ -1,8 +1,6 @@
 // Resolucion Desafio1
 def COUNT
-def Nombre
-def Apellido
-def login
+
 
 pipeline {
         agent any
