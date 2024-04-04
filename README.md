@@ -1,6 +1,6 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&text=Hello%20World!&height=100&section=header&fontColor=d6ace6)
 ### Let's connect and have a chat! 🌟
-- 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/edgaregonzalez/)
+- 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/carlos-maximiliano-ayala-234089a0/)
 ### A litle bit about me:
 - 🌱 I’m currently learning about AI and LLM.
 - 👯 I’m looking to collaborate on DevOps tools and AI OSS projects.
